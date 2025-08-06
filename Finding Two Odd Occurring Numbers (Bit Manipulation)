@@ -1,0 +1,71 @@
+🧠 MIND MAP: Finding Two Odd Occurring Numbers (Bit Manipulation)
+
+🎯 GOAL: Find 2 numbers that occur odd number of times in an array
+         (All others occur even number of times)
+
+1️⃣ XOR ALL ELEMENTS
+   - Purpose: Cancel out even occurrences
+   - Code:
+     xorResult = 0
+     for each arr[i]: xorResult ^= arr[i]
+   - Result: xorResult = num1 ^ num2
+
+2️⃣ FIND RIGHTMOST SET BIT
+   - Purpose: Identify a bit where num1 and num2 differ
+   - Code:
+     firstSetBit = 1
+     while ((xorResult & firstSetBit) == 0):
+         firstSetBit <<= 1
+   - Alternative (faster): firstSetBit = xorResult & -xorResult
+
+3️⃣ SPLIT ELEMENTS INTO TWO GROUPS
+   - Group A: arr[i] where (arr[i] & firstSetBit) → bit is 1
+   - Group B: arr[i] where (arr[i] & firstSetBit) == 0 → bit is 0
+   - XOR each group:
+     - Group A → n1 ^= arr[i]
+     - Group B → n2 ^= arr[i]
+   - Now: n1 and n2 are the two odd occurring numbers
+
+4️⃣ SORT RESULTS
+   - Store in vector `v`
+   - Ensure descending order (as per some problem specs):
+     if v[0] < v[1]: swap(v[0], v[1])
+
+5️⃣ RETURN VECTOR
+   - return v;
+
+
+🧠 Mnemonic to Remember Steps:
+
+"XOR – BIT – SPLIT – FIND – SORT – RETURN"
+
+1-XOR all numbers to cancel evens
+
+2-Find rightmost set BIT to separate num1 and num2
+
+3-SPLIT array based on that bit
+
+4-FIND the two odd ones by XOR-ing groups
+
+5-SORT (if needed)
+
+6-RETURN the result
+
+🧠 Tip:
+You can visualize the array splitting like this:
+
+Example: arr = [4, 2, 4, 5, 2, 3, 3, 1]
+
+After XOR → xorResult = 5 ^ 1 = 4 (binary: 0100)
+
+→ firstSetBit = 0100 (bit at position 2)
+
+Now group elements:
+Group A (bit 2 = 1): [4, 4, 5]
+Group B (bit 2 = 0): [2, 2, 3, 3, 1]
+
+XOR each group:
+Group A → 4 ^ 4 ^ 5 = 5
+Group B → 2 ^ 2 ^ 3 ^ 3 ^ 1 = 1
+
+
